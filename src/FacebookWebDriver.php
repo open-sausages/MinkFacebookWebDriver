@@ -14,6 +14,7 @@ use Behat\Mink\Driver\CoreDriver;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Selector\Xpath\Escaper;
 use Exception;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\WebDriverException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
@@ -222,12 +223,16 @@ class FacebookWebDriver extends CoreDriver
      */
     protected function initChromeCapabilities(DesiredCapabilities $caps, $config)
     {
-        $chromeOptions = [];
+        $chromeOptions = new ChromeOptions();
         foreach ($config as $capability => $value) {
             if ($capability == 'switches') {
-                $chromeOptions['args'] = $value;
+                $chromeOptions->addArguments($value);
+            } elseif ($capability == 'binary') {
+                $chromeOptions->setBinary($value);
+            } elseif ($capability == 'extensions') {
+                $chromeOptions->addExtensions($value);
             } else {
-                $chromeOptions[$capability] = $value;
+                $chromeOptions->setExperimentalOption($capability, $value);
             }
             $caps->setCapability('chrome.'.$capability, $value);
         }
