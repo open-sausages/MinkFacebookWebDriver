@@ -694,6 +694,15 @@ JS;
             return $this->executeJsOnElement($element, $script);
         }
 
+        // use textarea.value rather than textarea.getAttribute(value) for chrome 91+ support
+        if ('textarea' === $elementName) {
+            $script = <<<JS
+var node = {{ELEMENT}};
+return node.value;
+JS;
+            return $this->executeJsOnElement($element, $script);
+        }
+
         return $element->getAttribute('value');
     }
 
