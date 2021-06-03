@@ -11,6 +11,7 @@
 namespace SilverStripe\MinkFacebookWebDriver;
 
 use Behat\MinkExtension\ServiceContainer\Driver\Selenium2Factory;
+use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
